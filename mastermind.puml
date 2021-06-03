@@ -1,0 +1,47 @@
+@startuml mastermind
+
+Mastermind *--> Game
+
+class Mastermind {
+    + play():void
+    - isResumed():boolean
+}
+
+class Game {
+    + play():void
+}
+
+Game *-> SecretCombination
+Game *--> "1..10" Attempt
+Attempt *--> ProposedCombination
+Attempt --> Result
+Attempt -> SecretCombination
+
+Combination <|-- SecretCombination
+Combination <|-- ProposedCombination
+
+abstract Combination {}
+
+SecretCombination ..> Result
+SecretCombination ..> ProposedCombination
+
+Combination *--> "4" Color
+
+class SecretCombination {
+    + decode(ProposedCombination):Result
+}
+
+class Result {
+    + isWinner():boolean
+}
+
+enum Color {
+    RED
+    GREEN
+    BLUE
+    YELLOW
+    CYAN
+    MAGENTA
+}
+
+@enduml
